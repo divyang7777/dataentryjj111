@@ -16,6 +16,7 @@ export class DataFormComponent implements OnInit {
   otherCountryChange = false;
   otherCityChange = false;
 
+
   constructor(
     public FB: FormBuilder,
   ) {
@@ -37,16 +38,21 @@ export class DataFormComponent implements OnInit {
     this.otherCountryChange ? this.otherCountryChange = false : this.otherCountryChange = true;
   }
 
-  cityChange(){
+  cityChange() {
     this.otherCityChange ? this.otherCityChange = false : this.otherCityChange = true;
+  }
+
+  radioGender(event){
+    this.dataForm.value.gender = event.value
+    console.log(event, this.dataForm.value.gender);
   }
 
   showForm() {
     this.showDataForm = true;
   }
 
-  submit(){
-    
+  submit() {
+
   }
 
 }
