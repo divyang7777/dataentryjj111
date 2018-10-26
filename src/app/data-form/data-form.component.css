@@ -11,3 +11,10 @@
     background-size: cover;
   }
 
+.longInput{
+  margin-left: auto;
+  margin-right: auto;
+  /* text-align: center; */
+  width: 50%;
+  justify-content: center;
+}

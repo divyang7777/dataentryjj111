@@ -15,7 +15,8 @@ import {
   MatRadioModule,
   MatDividerModule,
   // MatStepperModule,
-  MatInputModule
+  MatInputModule,
+  MatSlideToggleModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -39,6 +40,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatInputModule,
     MatListModule,
+    MatSlideToggleModule,
     // MatStepperModule,
     MatSelectModule,
     MatCheckboxModule,
