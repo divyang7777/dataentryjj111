@@ -61,7 +61,7 @@
           <mat-list-item *ngIf="!otherCountryChange">
             <mat-form-field class="longInput" appearance="outline">
               <mat-label>Country</mat-label>
-              <mat-select placeholder="Select Country">
+              <mat-select formControlName="country" placeholder="Select Country">
                 <mat-option *ngFor="let country of countrys" [value]="country">
                   {{country}}
                 </mat-option>
@@ -83,8 +83,8 @@
           <mat-list-item *ngIf="!otherCityChange">
             <mat-form-field class="longInput" appearance="outline">
               <mat-label>City</mat-label>
-              <mat-select placeholder="City">
-                <mat-option *ngFor="let city of Citys" [value]="city">
+              <mat-select formControlName="city" placeholder="City">
+                <mat-option *ngFor="let city of citys" [value]="city">
                   {{city}}
                 </mat-option>
               </mat-select>

@@ -11,10 +11,44 @@ export class DataFormComponent implements OnInit {
   isLinear = true;
   showDataForm: boolean;
   dataForm: FormGroup;
-  countrys = ['India', 'South America', 'North America', 'Africa'];
+  // countrys = ['India', 'South America', 'North America', 'Africa'];
+  countrys = [];
   citys = ['Surat', 'Ahmedabad', 'kenya', 'london', 'canada'];
   otherCountryChange = false;
   otherCityChange = false;
+  data = [
+    {
+      "country": "India",
+      "city": "Ahmedabad"
+    },
+    {
+      "country": "India",
+      "city": "Anand"
+    },
+    {
+      "country": "India",
+      "city": "Ankleshwar"
+    },
+    {
+      "country": "India",
+      "city": "Bharuch"
+    },
+    {
+      "country": "Australia",
+      "city": "Australia_1"
+    },
+    {
+      "country": "Australia",
+      "city": "Polo"
+    },
+    {
+      "country": "UAE",
+      "city": "Sahara"
+    },
+    {
+      "country": "UAE",
+      "city": "Saudi"
+    }];
 
 
   constructor(
@@ -32,6 +66,19 @@ export class DataFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.data);
+    // this.countrys = this.data.map(data =>
+    //   console.log(data.country.length)
+    // );
+
+    for (let i = 0; i < this.data.length; i++) {
+      this.countrys.push(i);
+      // if (i !== this.countrys[i-1]) {
+      //   this.countrys.pop()        
+      // }
+    }
+    console.log(this.countrys);
+
   }
 
   countryChange() {
@@ -42,7 +89,7 @@ export class DataFormComponent implements OnInit {
     this.otherCityChange ? this.otherCityChange = false : this.otherCityChange = true;
   }
 
-  radioGender(event){
+  radioGender(event) {
     this.dataForm.value.gender = event.value
     console.log(event, this.dataForm.value.gender);
   }
@@ -52,7 +99,7 @@ export class DataFormComponent implements OnInit {
   }
 
   submit() {
-
+    console.log(this.dataForm);
   }
 
 }
