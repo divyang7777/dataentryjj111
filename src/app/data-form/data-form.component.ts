@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ApiServiceService } from '../Services/api-service.service';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-data-form',
@@ -11,78 +14,103 @@ export class DataFormComponent implements OnInit {
   isLinear = true;
   showDataForm: boolean;
   dataForm: FormGroup;
-  // countrys = ['India', 'South America', 'North America', 'Africa'];
-  countrys = [];
-  citys = ['Surat', 'Ahmedabad', 'kenya', 'london', 'canada'];
+  countries = [];
+  cities = [];
   otherCountryChange = false;
   otherCityChange = false;
-  data = [
-    {
-      "country": "India",
-      "city": "Ahmedabad"
-    },
-    {
-      "country": "India",
-      "city": "Anand"
-    },
-    {
-      "country": "India",
-      "city": "Ankleshwar"
-    },
-    {
-      "country": "India",
-      "city": "Bharuch"
-    },
-    {
-      "country": "Australia",
-      "city": "Australia_1"
-    },
-    {
-      "country": "Australia",
-      "city": "Polo"
-    },
-    {
-      "country": "UAE",
-      "city": "Sahara"
-    },
-    {
-      "country": "UAE",
-      "city": "Saudi"
-    }];
-
+  data = [];
+  options: string[] = [];
+  filteredOptions: Observable<string[]>;
+  showOtherCountry: boolean;
+  cityData: any;
 
   constructor(
     public FB: FormBuilder,
+    public api: ApiServiceService
   ) {
     this.dataForm = this.FB.group({
       name: ['', Validators.required],
       age: ['', Validators.required],
       gender: ['', Validators.required],
-      number: ['', Validators.required],
+      mobile: ['', Validators.required],
       email: ['', Validators.required],
       country: ['', Validators.required],
-      city: ['', Validators.required]
+      other_country: ['', Validators.compose([this.conditionalRequired()])],
+      other_city: ['', Validators.required],
+      city: ['', Validators.required],
+      education_affiliation: ['', Validators.required],
     })
+  }
+
+  // conditionalOCRequired() {
+  //   return (): { [s: string]: boolean } => {
+  //     if (this.showOtherCountry ) {
+  //       console.log('Required')
+  //       return { required: true };
+  //     } else {
+  //       console.log('Not Required')
+  //       return { required: false };
+  //     }
+  //   }
+  // }
+
+  conditionalRequired() {
+    return (): { [s: string]: boolean } => {
+      if (this.showOtherCountry) {
+        console.log('Required')
+        return { required: true };
+      } else {
+        console.log('Not Required')
+        return { required: false };
+      }
+    }
   }
 
   ngOnInit() {
     console.log(this.data);
-    // this.countrys = this.data.map(data =>
-    //   console.log(data.country.length)
-    // );
+    this.loadCities();
+    this.filteredOptions = this.dataForm.controls.city.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+  }
 
-    for (let i = 0; i < this.data.length; i++) {
-      this.countrys.push(i);
-      // if (i !== this.countrys[i-1]) {
-      //   this.countrys.pop()        
-      // }
-    }
-    console.log(this.countrys);
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  }
 
+  reset() {
+    this.dataForm.reset();
+  }
+
+  loadCities() {
+    this.api.getRequest('/collect/center_master/').subscribe((res: any) => {
+      console.log(res.data);
+      this.cityData = res.data;
+      for (var key in res.data) this.countries.push(key)
+    }, err => {
+      console.log('Error in CountryMaster', err)
+    });
   }
 
   countryChange() {
-    this.otherCountryChange ? this.otherCountryChange = false : this.otherCountryChange = true;
+    this.dataForm.controls.city.setValue('');
+    if (this.dataForm.controls.country.value == 'other') {
+      this.showOtherCountry = true;
+    } else {
+      this.options = [];
+      for (var key in this.cityData) {
+        if (key == this.dataForm.controls.country.value) {
+          for (let i = 0; i < this.cityData[key].length; i++) {
+            const element = this.cityData[key][i];
+            this.options.push(element);
+          }
+        }
+      }
+      this.dataForm.controls.other_country.setValue('');
+      this.showOtherCountry = false;
+    }
   }
 
   cityChange() {
@@ -90,8 +118,8 @@ export class DataFormComponent implements OnInit {
   }
 
   radioGender(event) {
-    this.dataForm.value.gender = event.value
-    console.log(event, this.dataForm.value.gender);
+    // this.dataForm.value.gender = event.value
+    // console.log(this.dataForm.value.gender);
   }
 
   showForm() {
@@ -99,7 +127,7 @@ export class DataFormComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.dataForm);
+    console.log(this.dataForm.value);
   }
 
 }

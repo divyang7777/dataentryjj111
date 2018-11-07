@@ -16,12 +16,13 @@ import {
   MatDividerModule,
   // MatStepperModule,
   MatInputModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { DataFormComponent } from './data-form/data-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatCheckboxModule,
     MatDatepickerModule,
     MatAutocompleteModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

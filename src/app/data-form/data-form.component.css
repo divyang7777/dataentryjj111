@@ -20,3 +20,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.m-r-10 {
+  margin-right: 10px;
+}
