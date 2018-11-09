@@ -17,23 +17,26 @@ import {
   // MatStepperModule,
   MatInputModule,
   MatSlideToggleModule,
+  MatDialogModule,
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { DataFormComponent } from './data-form/data-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { DataFormComponent, PasswordComponent } from './data-form/data-form.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DataFormComponent
+    DataFormComponent,
+    PasswordComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatDialogModule,
     MatCardModule,
     MatRadioModule,
     MatGridListModule,
@@ -48,9 +51,11 @@ import { HttpClientModule } from '@angular/common/http';
     MatDatepickerModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
+  entryComponents: [PasswordComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

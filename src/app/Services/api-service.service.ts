@@ -11,10 +11,21 @@ export class ApiServiceService {
 
   endpoint = environment.apiOrigin;
 
+  public isAuthenticate = false;
+  public password: string;
+
   constructor(private http: HttpClient) { }
 
   public getRequest(url) {
     return this.http.get(this.endpoint + url).pipe(map(response => {
+      return response;
+    }, error => {
+      return this.handleError(error, this);
+    }));
+  }
+
+  public postRequest(url, data) {
+    return this.http.post(this.endpoint + url, data).pipe(map(response => {
       return response;
     }, error => {
       return this.handleError(error, this);
