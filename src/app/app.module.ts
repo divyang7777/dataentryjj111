@@ -25,6 +25,7 @@ import { AppComponent } from './app.component';
 import { DataFormComponent, PasswordComponent } from './data-form/data-form.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     MatListModule,
     MatSlideToggleModule,
+    NgxSpinnerModule,
     // MatStepperModule,
     MatSelectModule,
     MatCheckboxModule,

@@ -8,7 +8,7 @@
     <mat-card-content>
       <div class="example-container">
 
-        <form [formGroup]="dataForm">
+        <form [formGroup]="dataForm" #f="ngForm">
           <ng-template matStepLabel>Basic Information</ng-template>
           <mat-list style="text-align: center">
 
@@ -16,41 +16,45 @@
               <mat-form-field class="longInput" appearance="outline">
                 <mat-label>Name</mat-label>
                 <input matInput placeholder="Name" formControlName="name">
+                <mat-error *ngIf="dataForm.controls.name.errors && dataForm.controls.name.errors.required">Name is required.</mat-error>
               </mat-form-field>
             </mat-list-item>
-            <br><br>
+            <br><br><br>
             <mat-list-item>
               <mat-form-field class="longInput" appearance="outline">
                 <mat-label>Age</mat-label>
                 <input matInput type="number" placeholder="Age" formControlName="age">
+                <mat-error>Age is required.</mat-error>
               </mat-form-field>
             </mat-list-item>
-            <br>
-            <!-- <br> -->
+            <br><br><br>
             <mat-list-item class="longInput" appearance="outline">
-              <mat-list-item>
-                <mat-label>Gender : </mat-label>
-              </mat-list-item>
-              <mat-radio-group matInput formControlName="gender">
+              <mat-radio-group formControlName="gender">
                 <mat-radio-button value="Male" color="primary">Male&nbsp;&nbsp;&nbsp;</mat-radio-button>
                 <mat-radio-button value="Female" color="primary">Female&nbsp;</mat-radio-button>
+                <mat-error *ngIf="dataForm.controls.gender.errors && dataForm.controls.gender.errors.required">Gender is required.</mat-error>
               </mat-radio-group>
             </mat-list-item>
-            <br><br>
+            <br><br><br>
             <mat-list-item>
               <mat-form-field class="longInput" appearance="outline">
                 <mat-label>Mobile Number</mat-label>
+                <h3 matPrefix>+91&nbsp;</h3>
                 <input matInput type="number" placeholder="Number" formControlName="mobile">
+                <mat-error *ngIf="dataForm.controls.mobile.errors && dataForm.controls.mobile.errors.pattern">Mobile is invalid.</mat-error>
+                <mat-error *ngIf="dataForm.controls.mobile.errors && dataForm.controls.mobile.errors.required">Mobile is required.</mat-error>
               </mat-form-field>
             </mat-list-item>
-            <br><br>
+            <br><br><br>
             <mat-list-item>
               <mat-form-field class="longInput" appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput type="email" placeholder="Email" formControlName="email">
+                <mat-error *ngIf="dataForm.controls.email.errors && dataForm.controls.email.errors.required">Email is required.</mat-error>
+                <mat-error *ngIf="dataForm.controls.email.errors && dataForm.controls.email.errors.email">Email is not valid.</mat-error>
               </mat-form-field>
             </mat-list-item>
-            <br><br>
+            <br><br><br>
 
             <mat-list-item>
               <mat-form-field class="longInput" appearance="outline">
@@ -61,23 +65,26 @@
                   </mat-option>
                   <mat-option value="other"> Other </mat-option>
                 </mat-select>
+                <mat-error>Country is required.</mat-error>
               </mat-form-field>
             </mat-list-item>
-            <br><br>
+            <br><br><br>
 
             <mat-list-item *ngIf="showOtherCountry">
               <mat-form-field class="longInput" appearance="outline">
                 <mat-label>Other Country</mat-label>
                 <input matInput placeholder="Country" formControlName="other_country">
+                <mat-error>Other Country is required.</mat-error>
               </mat-form-field>
             </mat-list-item>
-            <br *ngIf="showOtherCountry"><br *ngIf="showOtherCountry">
+            <br *ngIf="showOtherCountry"><br *ngIf="showOtherCountry"><br *ngIf="showOtherCountry">
 
             <mat-list-item>
               <mat-form-field class="longInput" appearance="outline">
                 <mat-label>Select City</mat-label>
-                <input type="text" placeholder="Pick one" aria-label="Number" matInput formControlName="city"
+                <input type="text" placeholder="Select City" aria-label="Number" matInput formControlName="city"
                   [matAutocomplete]="auto" (input)="checkCity()">
+                <mat-error>City is required.</mat-error>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                   <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                     {{option}}
@@ -85,15 +92,16 @@
                 </mat-autocomplete>
               </mat-form-field>
             </mat-list-item>
-            <br><br>
+            <br><br><br>
 
             <mat-list-item *ngIf="showOtherCity">
               <mat-form-field class="longInput" appearance="outline">
                 <mat-label>Other City</mat-label>
                 <input matInput placeholder="City" formControlName="other_city">
+                <mat-error>Other City is required.</mat-error>
               </mat-form-field>
             </mat-list-item>
-
+            <br *ngIf="showOtherCity"><br *ngIf="showOtherCity"><br *ngIf="showOtherCity">
             <mat-list-item class="longInput">
               <mat-checkbox (change)="education()">Education Affiliation</mat-checkbox>
             </mat-list-item>
@@ -110,8 +118,10 @@
     </mat-card-content>
   </div>
 
-<div *ngIf="!api.isAuthenticate">
-  <button mat-raised-button (click)="login()" color="warn">Login</button>
-</div>
+  <div *ngIf="!api.isAuthenticate">
+    <button mat-raised-button (click)="login()" color="warn">Login</button>
+  </div>
 
 </mat-card>
+
+<ngx-spinner></ngx-spinner>

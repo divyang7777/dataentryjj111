@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiServiceService } from '../Services/api-service.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-data-form',
@@ -13,6 +14,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/
 
 export class DataFormComponent implements OnInit {
 
+  @ViewChild('f') myNgForm;
+  
   isLinear = true;
   showDataForm: boolean;
   dataForm: FormGroup;
@@ -33,16 +36,20 @@ export class DataFormComponent implements OnInit {
     public FB: FormBuilder,
     public api: ApiServiceService,
     public dialog: MatDialog,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService
   ) {
     this.api.isAuthenticate = false;
     // this.today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+  }
+
+  ngOnInit() {
     this.dataForm = this.FB.group({
       name: ['', Validators.required],
       age: ['', Validators.required],
-      gender: ['', Validators.required],
-      mobile: ['', Validators.required],
-      email: ['', Validators.required],
+      gender: ['Male', Validators.required],
+      mobile: ['', Validators.pattern('[6789][0-9]{9}')],
+      email: ['', Validators.email],
       country: ['', Validators.required],
       other_country: [''],
       other_city: [''],
@@ -50,36 +57,34 @@ export class DataFormComponent implements OnInit {
       education_affiliation: [false],
       password: [localStorage.getItem('pwd'), Validators.required]
     })
-  }
-
-  ngOnInit() {
-    console.log(this.data);
+    console.log('this.dataForm.controls.city.value', this.dataForm.controls.city.value);
     this.loadCities();
-    this.filteredOptions = this.dataForm.controls.city.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
+      this.filteredOptions = this.dataForm.controls.city.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
   }
 
   private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value != null ? value.toLowerCase() : value;
     return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
   reset() {
+    this.myNgForm.resetForm();
+    this.dataForm.controls.gender.setValue('Male');
     this.showOtherCity = false;
     this.showOtherCountry = false;
-    this.dataForm.controls.name.reset();
-    this.dataForm.controls.name.markAsUntouched();
-    this.dataForm.controls.age.reset();
-    this.dataForm.controls.gender.reset();
-    this.dataForm.controls.mobile.reset();
-    this.dataForm.controls.email.reset();
-    this.dataForm.controls.country.reset();
-    this.dataForm.controls.other_country.reset();
-    this.dataForm.controls.other_city.reset();
-    this.dataForm.controls.education_affiliation.reset();
-    this.dataForm.controls.city.setValue('');
+    // this.dataForm.controls.city.setValue('');
+    // this.dataForm.controls.name.reset();
+    // this.dataForm.controls.name.markAsUntouched();
+    // this.dataForm.controls.age.reset();
+    // this.dataForm.controls.mobile.reset();
+    // this.dataForm.controls.email.reset();
+    // this.dataForm.controls.country.reset();
+    // this.dataForm.controls.other_country.reset();
+    // this.dataForm.controls.other_city.reset();
+    // this.dataForm.controls.education_affiliation.reset();
   }
 
   loadCities() {
@@ -141,6 +146,16 @@ export class DataFormComponent implements OnInit {
   }
 
   submit() {
+    this.spinner.show();
+    if (this.dataForm.controls.mobile.value) {
+      this.dataForm.controls.email.clearValidators();
+    }
+    if (this.dataForm.controls.email.value) {
+      this.dataForm.controls.mobile.clearValidators();
+    }
+    if (this.dataForm.controls.email.value == null && this.dataForm.controls.mobile.value == null) {
+      this.dataForm.controls.mobile.setValidators(Validators.required);
+    }
     this.dataForm.controls.password.setValue(localStorage.getItem('pwd'));
     console.log(this.dataForm.value);
     if (this.dataForm.valid) {
@@ -151,15 +166,18 @@ export class DataFormComponent implements OnInit {
           duration: 5000,
         });
         this.reset();
+        this.spinner.hide();
       }, err => {
         this.snackBar.open('There was an error please try again !!', 'Okay', {
           duration: 5000,
         });
         console.log('Error: ', err);
+        this.spinner.hide();
       });
     } else {
       console.log('Invalid');
       console.log(this.dataForm.controls);
+      this.spinner.hide();
     }
   }
 
