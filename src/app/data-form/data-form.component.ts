@@ -76,7 +76,9 @@ export class DataFormComponent implements OnInit {
     this.dataForm.controls.email.reset();
     this.dataForm.controls.country.reset();
     this.dataForm.controls.other_country.reset();
+    this.dataForm.controls.other_city.reset();
     this.dataForm.controls.education_affiliation.reset();
+    this.dataForm.controls.city.setValue('');
   }
 
   loadCities() {
@@ -98,8 +100,8 @@ export class DataFormComponent implements OnInit {
       this.dataForm.controls.other_city.setValidators(Validators.required);
       this.dataForm.controls.other_country.setValidators(Validators.required);
     } else {
-      this.dataForm.controls.other_city.setValidators(null);
-      this.dataForm.controls.other_country.setValidators(null);
+      this.dataForm.controls.other_city.clearValidators();
+      this.dataForm.controls.other_country.clearValidators();
       this.options = [];
       for (var key in this.cityData) {
         if (key == this.dataForm.controls.country.value) {
@@ -110,6 +112,7 @@ export class DataFormComponent implements OnInit {
         }
       }
       this.dataForm.controls.other_country.setValue('');
+      this.dataForm.controls.other_city.setValue('');
       this.showOtherCountry = false;
     }
   }
@@ -120,6 +123,7 @@ export class DataFormComponent implements OnInit {
       this.showOtherCity = true;
     } else {
       this.showOtherCity = false;
+      this.dataForm.controls.other_city.clearValidators();
     }
   }
 
@@ -140,11 +144,10 @@ export class DataFormComponent implements OnInit {
 
     if (this.dataForm.valid) {
       console.log('valid');
-      this.reset();
-      // this.api.postRequest('/collect/users/', this.dataForm.value).subscribe((res: any) => {
-      //   console.log('Successfully sended');
-      //   this.reset();
-      // })
+      this.api.postRequest('/collect/users/', this.dataForm.value).subscribe((res: any) => {
+        console.log('Successfully sended ', res);
+        this.reset();
+      });
     } else {
       console.log('Invalid');
       console.log(this.dataForm.controls);
