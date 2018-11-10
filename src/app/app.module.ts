@@ -18,6 +18,7 @@ import {
   MatInputModule,
   MatSlideToggleModule,
   MatDialogModule,
+  MatSnackBarModule,
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -52,7 +53,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatSnackBarModule
   ],
   providers: [],
   entryComponents: [PasswordComponent],

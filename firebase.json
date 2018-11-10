@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/centerdataentry",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiServiceService } from '../Services/api-service.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-data-form',
@@ -32,7 +32,8 @@ export class DataFormComponent implements OnInit {
   constructor(
     public FB: FormBuilder,
     public api: ApiServiceService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar
   ) {
     this.api.isAuthenticate = false;
     // this.today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
@@ -46,7 +47,7 @@ export class DataFormComponent implements OnInit {
       other_country: [''],
       other_city: [''],
       city: ['', Validators.required],
-      education_affiliation: [false, Validators.required],
+      education_affiliation: [false],
       password: [localStorage.getItem('pwd'), Validators.required]
     })
   }
@@ -140,13 +141,21 @@ export class DataFormComponent implements OnInit {
   }
 
   submit() {
+    this.dataForm.controls.password.setValue(localStorage.getItem('pwd'));
     console.log(this.dataForm.value);
-
     if (this.dataForm.valid) {
       console.log('valid');
       this.api.postRequest('/collect/users/', this.dataForm.value).subscribe((res: any) => {
         console.log('Successfully sended ', res);
+        this.snackBar.open('Successfully Send !!', 'Okay', {
+          duration: 5000,
+        });
         this.reset();
+      }, err => {
+        this.snackBar.open('There was an error please try again !!', 'Okay', {
+          duration: 5000,
+        });
+        console.log('Error: ', err);
       });
     } else {
       console.log('Invalid');
