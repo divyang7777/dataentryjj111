@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiOrigin: 'http://mhtportal.dadabhagwan.org'
+  apiOrigin: 'https://mhtportal.dadabhagwan.org'
 };

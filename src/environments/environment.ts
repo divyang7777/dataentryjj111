@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiOrigin: 'http://mhtportal.dadabhagwan.org'
+  apiOrigin: 'https://mhtportal.dadabhagwan.org'
 };
 
 /*
