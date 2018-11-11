@@ -49,17 +49,6 @@ export class AdminPanalComponent implements OnInit {
     });
   }
 
-  login() {
-    const dialogRef = this.dialog.open(AdminPasswordComponent, {
-      width: '500px',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
   export() {
     var options = {
       headers: ['Id', 'Name', 'Age', 'Mobile', 'Email', 'Country', 'City', 'Education Affiliation']
@@ -85,30 +74,4 @@ export interface UserData {
   country: number,
   city: number,
   education_affiliation: number;
-}
-
-@Component({
-  selector: 'app-password',
-  templateUrl: './password.component.html',
-})
-export class AdminPasswordComponent implements OnInit {
-
-  password: string;
-
-  constructor(public dialogRef: MatDialogRef<AdminPasswordComponent>, public api: ApiServiceService) { }
-
-  ngOnInit() {
-  }
-
-  checkPassword() {
-    if (this.password == 'Admin@GNC') {
-      this.api.isAdmin = true;
-      this.onNoClick();
-    }
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
 }

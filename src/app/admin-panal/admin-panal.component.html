@@ -1,6 +1,4 @@
-<br>
-<br>
-<div style="padding: 20px;" *ngIf="api.isAdmin">
+<div style="padding: 20px;">
     <button mat-raised-button (click)="export()" color="primary">Export Data</button>
   <div class="example-header">
     <mat-form-field>
@@ -67,9 +65,4 @@
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
   </div>
-</div>
-
-<div *ngIf="!api.isAdmin">
-  Login to Countinue ... <br><br>
-  <button mat-raised-button (click)="login()" color="warn">Login</button>
 </div>

@@ -24,16 +24,19 @@ import {
   MatTableModule,
   MatPaginatorModule
 } from '@angular/material';
-
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
 import { DataFormComponent, PasswordComponent } from './data-form/data-form.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { AdminPanalComponent, AdminPasswordComponent } from './admin-panal/admin-panal.component';
+import { AdminPanalComponent } from './admin-panal/admin-panal.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth.guard';
 
 const appRoutes: Routes = [
-  { path: 'admin-panal', component: AdminPanalComponent },
+  { path: 'admin-panal', component: AdminPanalComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
   { path: '', component: DataFormComponent },
 ];
 
@@ -43,7 +46,7 @@ const appRoutes: Routes = [
     DataFormComponent,
     PasswordComponent,
     AdminPanalComponent,
-    AdminPasswordComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -76,8 +79,8 @@ const appRoutes: Routes = [
       appRoutes
     )
   ],
-  providers: [],
-  entryComponents: [PasswordComponent, AdminPasswordComponent],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  entryComponents: [PasswordComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
