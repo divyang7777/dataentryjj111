@@ -1,0 +1,34 @@
+/* Structure */
+table {
+    width: 100%;
+}
+
+.mat-column-id, .mat-column-age {
+    flex: 0 0 25% !important;
+    max-width: 50px !important;
+}
+
+.mat-column-mobile {
+    flex: 0 0 25% !important;
+    max-width: 100px !important;
+}
+
+.mat-column-email {
+    flex: 0 0 25% !important;
+    max-width: 250px !important;
+}
+
+.mat-column-name {
+    flex: 0 0 25% !important;
+    max-width: 180px !important;
+}
+
+.mat-column-country {
+    flex: 0 0 25% !important;
+    max-width: 150px !important;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}

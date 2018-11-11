@@ -12,6 +12,7 @@ export class ApiServiceService {
   endpoint = environment.apiOrigin;
 
   public isAuthenticate = false;
+  public isAdmin = false;
   public password: string;
 
   constructor(private http: HttpClient) { }
