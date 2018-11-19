@@ -33,6 +33,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { AdminPanalComponent } from './admin-panal/admin-panal.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
+import { CdkTableModule } from '@angular/cdk/table';
 
 const appRoutes: Routes = [
   { path: 'admin-panal', component: AdminPanalComponent, canActivate: [AuthGuard] },
@@ -66,9 +67,11 @@ const appRoutes: Routes = [
     MatListModule,
     MatSlideToggleModule,
     NgxSpinnerModule,
+    MatCardModule,
     // MatStepperModule,
     MatSelectModule,
     MatCheckboxModule,
+    CdkTableModule,
     MatDatepickerModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,

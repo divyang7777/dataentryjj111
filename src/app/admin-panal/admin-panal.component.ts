@@ -14,18 +14,22 @@ export class AdminPanalComponent implements OnInit {
   dataSource: MatTableDataSource<UserData>;
   userDetail: any;
   users: UserData[] = [];
+  statistics;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public api: ApiServiceService, public dialog: MatDialog) { }
+  constructor(public api: ApiServiceService, public dialog: MatDialog) {
+  }
 
   ngOnInit() {
     this.getAllData();
+    this.getStaticstics();
   }
 
   getAllData() {
     this.api.getRequest('/collect/users/').subscribe((data: any) => {
+      this.users = [];
       console.log('userList', data);
       this.userDetail = data;
 
@@ -49,6 +53,18 @@ export class AdminPanalComponent implements OnInit {
     });
   }
 
+  getStaticstics() {
+    this.api.getRequest('/collect/date_wise_stats/').subscribe((data: any) => {
+      this.statistics = data.stats;
+    }, err => {
+      console.log('Error to get Statistics: ', err);
+    });
+  }
+
+  refresh() {
+    this.getAllData();
+  }
+
   export() {
     var options = {
       headers: ['Id', 'Name', 'Age', 'Mobile', 'Email', 'Country', 'City', 'Education Affiliation']
@@ -64,6 +80,7 @@ export class AdminPanalComponent implements OnInit {
 
 
 }
+
 // 'id', 'name', 'age', 'mobile', 'email', 'country', 'city', 'education_affiliation'
 export interface UserData {
   id: number;

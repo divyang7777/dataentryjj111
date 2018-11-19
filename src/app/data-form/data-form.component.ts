@@ -75,16 +75,8 @@ export class DataFormComponent implements OnInit {
     this.dataForm.controls.gender.setValue('Male');
     this.showOtherCity = false;
     this.showOtherCountry = false;
-    // this.dataForm.controls.city.setValue('');
-    // this.dataForm.controls.name.reset();
-    // this.dataForm.controls.name.markAsUntouched();
-    // this.dataForm.controls.age.reset();
-    // this.dataForm.controls.mobile.reset();
-    // this.dataForm.controls.email.reset();
-    // this.dataForm.controls.country.reset();
-    // this.dataForm.controls.other_country.reset();
-    // this.dataForm.controls.other_city.reset();
-    // this.dataForm.controls.education_affiliation.reset();
+    this.dataForm.controls.education_affiliation.setValue(false);
+    this.dataForm.controls.email.setValue('');
   }
 
   loadCities() {
