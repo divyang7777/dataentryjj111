@@ -15,7 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class DataFormComponent implements OnInit {
 
   @ViewChild('f') myNgForm;
-  
+
   isLinear = true;
   showDataForm: boolean;
   dataForm: FormGroup;
@@ -59,10 +59,10 @@ export class DataFormComponent implements OnInit {
     })
     console.log('this.dataForm.controls.city.value', this.dataForm.controls.city.value);
     this.loadCities();
-      this.filteredOptions = this.dataForm.controls.city.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
+    this.filteredOptions = this.dataForm.controls.city.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
   }
 
   private _filter(value: string): string[] {
@@ -122,6 +122,14 @@ export class DataFormComponent implements OnInit {
     } else {
       this.showOtherCity = false;
       this.dataForm.controls.other_city.clearValidators();
+    }
+  }
+
+  blurCity() {
+    console.log(this.dataForm.controls.city.value);
+    console.log(this.options.indexOf(this.dataForm.controls.city.value))
+    if (this.options && this.options.indexOf(this.dataForm.controls.city.value) < 0) {
+      this.dataForm.controls.city.setValue(null);
     }
   }
 
