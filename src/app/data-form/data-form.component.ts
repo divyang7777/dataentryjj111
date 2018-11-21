@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, FormControl } from '@angular/forms';
 import { ApiServiceService } from '../Services/api-service.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MatAutocompleteTrigger, MatOptionSelectionChange } from '@angular/material';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -31,6 +31,7 @@ export class DataFormComponent implements OnInit {
   showOtherCity: boolean;
   pwd: string;
   today: Date;
+  selectedCountry: any;
 
   constructor(
     public FB: FormBuilder,
@@ -128,8 +129,8 @@ export class DataFormComponent implements OnInit {
   blurCity() {
     console.log(this.dataForm.controls.city.value);
     console.log(this.options.indexOf(this.dataForm.controls.city.value))
-    if (this.options && this.options.indexOf(this.dataForm.controls.city.value) < 0) {
-      this.dataForm.controls.city.setValue(null);
+    if (this.options && this.dataForm.controls.city.value && this.options.indexOf(this.dataForm.controls.city.value) < 0 && this.dataForm.controls.city.value !== 'Rest of India') {
+      this.dataForm.controls.city.setErrors(Validators.maxLength);
     }
   }
 
@@ -147,13 +148,14 @@ export class DataFormComponent implements OnInit {
 
   submit() {
     this.spinner.show();
+    console.log(this.dataForm.controls.email.value, this.dataForm.controls.mobile.value)
     if (this.dataForm.controls.mobile.value) {
       this.dataForm.controls.email.clearValidators();
-    }
-    if (this.dataForm.controls.email.value) {
+    } else if (this.dataForm.controls.email.value) {
       this.dataForm.controls.mobile.clearValidators();
     }
-    if (this.dataForm.controls.email.value == null && this.dataForm.controls.mobile.value == null) {
+    if (this.dataForm.controls.email.value && this.dataForm.controls.mobile.value) {
+    } else {
       this.dataForm.controls.mobile.setValidators(Validators.required);
     }
     this.dataForm.controls.password.setValue(localStorage.getItem('pwd'));
