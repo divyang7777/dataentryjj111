@@ -63,6 +63,7 @@ export class AdminPanalComponent implements OnInit {
 
   refresh() {
     this.getAllData();
+    this.getStaticstics();
   }
 
   export() {

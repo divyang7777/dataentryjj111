@@ -84,7 +84,9 @@ export class DataFormComponent implements OnInit {
     this.api.getRequest('/collect/center_master/').subscribe((res: any) => {
       console.log(res.data);
       this.cityData = res.data;
-      for (var key in res.data) this.countries.push(key)
+      for (var key in res.data) this.countries.push(key);
+      this.dataForm.controls.country.setValue(this.countries[2]);
+      this.options = this.cityData[this.countries[2]];
     }, err => {
       console.log('Error in CountryMaster', err)
     });
