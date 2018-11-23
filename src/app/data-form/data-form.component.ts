@@ -75,6 +75,8 @@ export class DataFormComponent implements OnInit {
     this.myNgForm.resetForm();
     this.dataForm.controls.gender.setValue('Male');
     this.dataForm.controls.country.setValue(this.countries[2]);
+    this.dataForm.controls.other_country.setValue('');
+    this.dataForm.controls.other_city.setValue('');
     this.options = this.cityData[this.countries[2]];
     this.showOtherCity = false;
     this.showOtherCountry = false;

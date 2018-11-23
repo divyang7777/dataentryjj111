@@ -18,6 +18,7 @@ export class AdminPanalComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  ageStatistics: any;
 
   constructor(public api: ApiServiceService, public dialog: MatDialog) {
   }
@@ -56,6 +57,8 @@ export class AdminPanalComponent implements OnInit {
   getStaticstics() {
     this.api.getRequest('/collect/date_wise_stats/').subscribe((data: any) => {
       this.statistics = data.stats;
+      this.ageStatistics = data.age_stats;
+      console.log('Statistics: ', data);
     }, err => {
       console.log('Error to get Statistics: ', err);
     });

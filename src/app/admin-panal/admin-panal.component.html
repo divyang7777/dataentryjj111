@@ -1,25 +1,36 @@
 <h2>Date wise Statistics: </h2>
 
-<!-- <mat-grid-list cols="4">
-  <mat-grid-tile > -->
-    <div class="row">
-      <div class="col s6 m3 l2" style="margin-bottom: 5px;" *ngFor="let item of statistics;">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>{{item?.date | date}}</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <h2>
-              {{item?.mobile__count}}
-            </h2>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-  <!-- </mat-grid-tile>
-</mat-grid-list> -->
+<div class="row">
+  <div class="col s6 m3 l2" style="margin-bottom: 5px;" *ngFor="let item of statistics;">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{item?.date | date}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>
+          {{item?.mobile__count}}
+        </h2>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
 
-<!-- <h2>Detailed Statistics</h2> -->
+<h2>Age wise Statistics: </h2>
+
+<div class="row">
+  <div class="col s6 m3 l2" style="margin-bottom: 5px;" *ngFor="let item of ageStatistics;">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{item?.age_group}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>
+          {{item?.count}}
+        </h2>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
 
 <div style="padding: 20px;">
   <div class="row">
@@ -32,7 +43,7 @@
   </div>
   <div class="example-header">
     <mat-form-field appearance="fill">
-        <mat-label>Search</mat-label>
+      <mat-label>Search</mat-label>
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
     </mat-form-field>
   </div>
