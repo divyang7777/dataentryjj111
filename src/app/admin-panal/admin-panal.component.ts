@@ -11,14 +11,23 @@ import { Angular5Csv } from 'angular5-csv/Angular5-csv';
 export class AdminPanalComponent implements OnInit {
 
   displayedColumns = ['id', 'name', 'age', 'mobile', 'email', 'country', 'city', 'education_affiliation'];
+  cityStatisticsColumns = ['id', 'city', 'count'];
   dataSource: MatTableDataSource<UserData>;
+  citySource: MatTableDataSource<CityStatics>;
   userDetail: any;
   users: UserData[] = [];
+  cityData: CityStatics[] = [];
   statistics;
+  filter;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('userStatistics') paginator: MatPaginator;
+  @ViewChild('cityStatistics') cityPaginator: MatPaginator;
+
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) citySort: MatSort;
+
   ageStatistics: any;
+  cityStatistics: any;
 
   constructor(public api: ApiServiceService, public dialog: MatDialog) {
   }
@@ -58,10 +67,37 @@ export class AdminPanalComponent implements OnInit {
     this.api.getRequest('/collect/date_wise_stats/').subscribe((data: any) => {
       this.statistics = data.stats;
       this.ageStatistics = data.age_stats;
+      this.cityStatistics = data.city_stats;
       console.log('Statistics: ', data);
     }, err => {
       console.log('Error to get Statistics: ', err);
     });
+  }
+
+  showCityStatistics(age) {
+    this.filter = age;
+    this.cityData = [];
+    for (let i = 0; i < this.cityStatistics.length; i++) {
+      const element = this.cityStatistics[i];
+      if (age != 'Total Count') {
+        if (age == element.age_group) {
+          this.cityData.push({
+            id: i + 1,
+            city: element.city,
+            count: element.count
+          });
+        }
+      } else {
+        this.cityData.push({
+          id: i + 1,
+          city: element.city,
+          count: element.count
+        });
+      }
+    }
+    this.citySource = new MatTableDataSource(this.cityData);
+    this.citySource.paginator = this.cityPaginator;
+    this.citySource.sort = this.citySort;
   }
 
   refresh() {
@@ -82,6 +118,12 @@ export class AdminPanalComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
+  applyCityFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.citySource.filter = filterValue;
+  }
+
 
 }
 
@@ -95,4 +137,10 @@ export interface UserData {
   country: number,
   city: number,
   education_affiliation: number;
+}
+
+export interface CityStatics {
+  id: number;
+  city: string;
+  count: string;
 }

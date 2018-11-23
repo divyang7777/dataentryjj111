@@ -1,3 +1,12 @@
+<div class="row">
+  <div class="col s6">
+    <button mat-raised-button (click)="export()" color="primary">Export Data</button>
+  </div>
+  <div class="col s6" style="text-align: right;">
+    <button mat-raised-button (click)="refresh()" color="warn">Refresh</button>
+  </div>
+</div>
+
 <h2>Date wise Statistics: </h2>
 
 <div class="row">
@@ -15,32 +24,10 @@
   </div>
 </div>
 
-<h2>Age wise Statistics: </h2>
-
-<div class="row">
-  <div class="col s6 m3 l2" style="margin-bottom: 5px;" *ngFor="let item of ageStatistics;">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>{{item?.age_group}}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <h2>
-          {{item?.count}}
-        </h2>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
-
 <div style="padding: 20px;">
-  <div class="row">
-    <div class="col s6">
-      <button mat-raised-button (click)="export()" color="primary">Export Data</button>
-    </div>
-    <div class="col s6" style="text-align: right;">
-      <button mat-raised-button (click)="refresh()" color="warn">Refresh</button>
-    </div>
-  </div>
+
+  <h3>All Visitors Data: </h3>
+
   <div class="example-header">
     <mat-form-field appearance="fill">
       <mat-label>Search</mat-label>
@@ -105,6 +92,72 @@
       </mat-row>
     </mat-table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+    <mat-paginator #userStatistics [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
+
+
+<br>
+<hr>
+<br>
+
+
+<h2>Age wise Statistics: </h2>
+
+<div class="row">
+  <div class="col s6 m3 l2" style="margin-bottom: 5px;" *ngFor="let item of ageStatistics;">
+    <mat-card style="cursor: pointer;" (click)="showCityStatistics(item.age_group)">
+      <mat-card-header>
+        <mat-card-title>{{item?.age_group}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>
+          {{item?.count}}
+        </h2>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div style="padding: 20px;">
+
+  <h3 *ngIf="filter">Filtered by {{filter}}</h3>
+  <p *ngIf="filter">Display Number of center data which is from <i> <b>{{filter}}</b> </i> </p>
+
+  <div class="example-header">
+    <mat-form-field appearance="fill">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyCityFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+
+  <div class="example-container mat-elevation-z8">
+
+    <mat-table [dataSource]="citySource" matSort>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <mat-header-cell fxFlex="10px" *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+        <mat-cell fxFlex="10px" *matCellDef="let row"> {{row.id}} </mat-cell>
+      </ng-container>
+
+      <!-- city Column -->
+      <ng-container matColumnDef="city">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> City </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.city}} </mat-cell>
+      </ng-container>
+
+      <!-- count Column -->
+      <ng-container matColumnDef="count">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Count </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.count}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="cityStatisticsColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: cityStatisticsColumns;">
+      </mat-row>
+    </mat-table>
+
+    <mat-paginator #cityStatistics [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
   </div>
 </div>
