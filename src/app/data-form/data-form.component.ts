@@ -74,10 +74,11 @@ export class DataFormComponent implements OnInit {
   reset() {
     this.myNgForm.resetForm();
     this.dataForm.controls.gender.setValue('Male');
-    this.dataForm.controls.country.setValue(this.countries[2]);
+    this.dataForm.controls.country.setValue(this.countries[this.countries.indexOf('India')]);
+    this.dataForm.controls.city.setValue(this.options[this.options.indexOf('Ahmedabad')]);
     this.dataForm.controls.other_country.setValue('');
     this.dataForm.controls.other_city.setValue('');
-    this.options = this.cityData[this.countries[2]];
+    this.options = this.cityData[this.countries[this.countries.indexOf('India')]];
     this.showOtherCity = false;
     this.showOtherCountry = false;
     this.dataForm.controls.education_affiliation.setValue(false);
@@ -89,8 +90,9 @@ export class DataFormComponent implements OnInit {
       console.log(res.data);
       this.cityData = res.data;
       for (var key in res.data) this.countries.push(key);
-      this.dataForm.controls.country.setValue(this.countries[2]);
-      this.options = this.cityData[this.countries[2]];
+      this.dataForm.controls.country.setValue(this.countries[this.countries.indexOf('India')]);
+      this.options = this.cityData[this.countries[this.countries.indexOf('India')]];
+      this.dataForm.controls.city.setValue(this.options[this.options.indexOf('Ahmedabad')]);
     }, err => {
       console.log('Error in CountryMaster', err)
     });
