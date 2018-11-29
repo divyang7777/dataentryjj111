@@ -10,7 +10,7 @@ import { Angular5Csv } from 'angular5-csv/Angular5-csv';
 })
 export class AdminPanalComponent implements OnInit {
 
-  displayedColumns = ['id', 'name', 'age', 'mobile', 'email', 'country', 'city', 'education_affiliation'];
+  displayedColumns = ['id', 'name', 'age', 'gender', 'mobile', 'email', 'country', 'city', 'education_affiliation'];
   cityStatisticsColumns = ['id', 'city', 'count'];
   dataSource: MatTableDataSource<UserData>;
   citySource: MatTableDataSource<CityStatics>;
@@ -49,6 +49,7 @@ export class AdminPanalComponent implements OnInit {
           id: index + 1,
           name: element.name,
           age: element.age,
+          gender: element.gender,
           mobile: element.mobile ? element.mobile : '',
           email: element.email ? element.email : '',
           country: element.country == 'other' ? element.other_country + ' (other)' : element.country,
@@ -107,7 +108,7 @@ export class AdminPanalComponent implements OnInit {
 
   export() {
     var options = {
-      headers: ['Id', 'Name', 'Age', 'Mobile', 'Email', 'Country', 'City', 'Education Affiliation']
+      headers: ['Id', 'Name', 'Age', 'Gender', 'Mobile', 'Email', 'Country', 'City', 'Education Affiliation']
     };
     new Angular5Csv(this.users, 'VisitorsData', options);
   }
@@ -132,6 +133,7 @@ export interface UserData {
   id: number;
   name: string;
   age: string;
+  gender: string;
   mobile: number;
   email: number;
   country: number,

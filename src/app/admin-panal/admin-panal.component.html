@@ -57,6 +57,12 @@
         <mat-cell *matCellDef="let row"> {{row.age}} </mat-cell>
       </ng-container>
 
+      <!-- gender Column -->
+      <ng-container matColumnDef="gender">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Gender </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.gender}} </mat-cell>
+      </ng-container>
+
       <!-- mobile Column -->
       <ng-container matColumnDef="mobile">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Mobile </mat-header-cell>
